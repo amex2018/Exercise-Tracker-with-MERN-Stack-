@@ -1,2 +1,2 @@
-# Exercise-Tracker-with-MERN-Stack-
+# Exercise-Tracker-with-MERN-Stack
 Exercise tracker 

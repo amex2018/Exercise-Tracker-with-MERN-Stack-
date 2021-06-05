@@ -1,0 +1,11 @@
+.typography {
+  flex-grow: 1;
+}
+.container {
+  margin: 0;
+  padding: 0;
+}
+.MuiAppBar-colorPrimary {
+  color: #fff;
+  background-color: #f11048;
+}

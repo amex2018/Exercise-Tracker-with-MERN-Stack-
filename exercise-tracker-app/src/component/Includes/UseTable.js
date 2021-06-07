@@ -1,9 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {Table, TableBody, Box, Container, TableHead, TableCell, TableContainer, TablePagination, TableRow, TableSortLabel,makeStyles, duration} from '@material-ui/core';
+import {Table, TableBody, Box, Container, TableHead, TableCell, TableContainer, TablePagination, TableRow, TableSortLabel,makeStyles, Fab} from '@material-ui/core';
 import {Toolbar, Typography, Paper, Checkbox, IconButton, Tooltip, FormControlLabel, Switch, TextField} from '@material-ui/core';
-import {DeleteIcon,  FilterListIcon,AccountCircle,Menu} from '@material-ui/icons';
+import {FilterListIcon,AccountCircle,Menu,} from '@material-ui/icons';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditTwoToneIcon from '@material-ui/icons/EditTwoTone';
 import axios from 'axios';
-import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
+
 const styleUses =  makeStyles((themes) =>({
  root: {
      maxWidth: "100%",
@@ -11,6 +14,9 @@ const styleUses =  makeStyles((themes) =>({
      backgroundColor: themes.palette.grey[200],
      padding: themes.spacing(3),
      
+ },
+ deletebutton: {
+     color:'#141414'
  }
 }))
 
@@ -46,6 +52,14 @@ const onChangeRowsPerPage = (event) =>{
 const onChangeSearch = (event) =>{
     setSearch(event.target.value);
 }
+
+// delete api
+const Deletehandler = (id, res) =>{
+    axios.delete(`http://localhost:3000/exercises/${id}`).then((data) =>{
+          res.send(data)
+    })
+}
+
     return(
         <Container className={classes.root}>
             <Toolbar component={Paper}>
@@ -95,14 +109,20 @@ const onChangeSearch = (event) =>{
                                    
                                })
                                .map((user) => (
-                                
                                 <TableRow>
-                                <TableCell>1</TableCell>
+                                <TableCell className={classes.counter}></TableCell>
                                 <TableCell>{user.username}</TableCell>
                                 <TableCell>{user.description}</TableCell>
                                 <TableCell>{user.duration}</TableCell>
                                 <TableCell>{user.date}</TableCell>
-                                <TableCell>ACTION</TableCell>
+                                <TableCell>
+                                    <Tooltip title="Delete" aria-label="delete">               
+                                          <Link to={user._id} onClick={Deletehandler} className={classes.deletebutton} ><DeleteIcon /></Link>
+                                    </Tooltip>
+                                    <Tooltip title="Edit" aria-label="Edit">               
+                                          <Link to={`/update/${user._id}`} className={classes.deletebutton}><EditTwoToneIcon/></Link>
+                                    </Tooltip>
+                              </TableCell>
                             </TableRow>
                                ))}
         

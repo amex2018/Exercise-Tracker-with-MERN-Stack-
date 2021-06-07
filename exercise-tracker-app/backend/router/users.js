@@ -11,7 +11,9 @@ route.get('/', (req, res) =>{
 
 route.post('/useradd', (req, res) => {
     const newuser = UserDB({
-        username: req.body.username
+        username: req.body.username,
+        fullname: req.body.fullname,
+        phone: req.body.phone
     });
 
     if(!req.body){

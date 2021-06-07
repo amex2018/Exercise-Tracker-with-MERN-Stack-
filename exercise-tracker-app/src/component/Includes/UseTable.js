@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {Table, TableBody, Box, Container, TableHead, TableCell, TableContainer, TablePagination, TableRow, TableSortLabel,makeStyles, Fab} from '@material-ui/core';
-import {Toolbar, Typography, Paper, Checkbox, IconButton, Tooltip, FormControlLabel, Switch, TextField} from '@material-ui/core';
-import {FilterListIcon,AccountCircle,Menu,} from '@material-ui/icons';
+import {Table, TableBody, Container, TableHead, TableCell, TableContainer, TablePagination, TableRow, TableSortLabel,makeStyles, Fab} from '@material-ui/core';
+import {Toolbar, Typography, Paper, Tooltip, TextField} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditTwoToneIcon from '@material-ui/icons/EditTwoTone';
 import axios from 'axios';
@@ -23,19 +22,18 @@ const styleUses =  makeStyles((themes) =>({
 const UseTable = () =>{
   const classes = styleUses();
 
-  const [users, setUsers] = useState([]);
+  const [exercises, setExercises] = useState([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [search, setSearch] = useState("");
 
-  const LoadUser = async () =>{
+  const LoadExercises = async () =>{
       const res = await axios.get('http://localhost:3000/exercises');
-      setUsers(res.data)
-      
+      setExercises(res.data)   
   }
 
   useEffect(() =>{
-      LoadUser();
+      LoadExercises();
   }, []);
 
 
@@ -54,9 +52,13 @@ const onChangeSearch = (event) =>{
 }
 
 // delete api
-const Deletehandler = (id, res) =>{
-    axios.delete(`http://localhost:3000/exercises/${id}`).then((data) =>{
-          res.send(data)
+const Deletehandler = (id) =>{
+ 
+    axios.delete(`http://localhost:3000/exercises/${id}`)
+    .then(response =>{
+          console.log(response.data)
+          window.alert('successfuly deleted!!')
+          window.location.reload(false)
     })
 }
 
@@ -99,12 +101,12 @@ const Deletehandler = (id, res) =>{
                     <TableBody>
                            
                            { 
-                               users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).filter( users =>{
+                               exercises.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).filter( exercises =>{
                                    if(search == ""){
-                                       return users
+                                       return exercises
                                    }
-                                   else if(users.username.toLowerCase().includes(search.toLowerCase())){
-                                       return users
+                                   else if(exercises.username.toLowerCase().includes(search.toLowerCase())){
+                                       return exercises
                                    }
                                    
                                })
@@ -117,7 +119,7 @@ const Deletehandler = (id, res) =>{
                                 <TableCell>{user.date}</TableCell>
                                 <TableCell>
                                     <Tooltip title="Delete" aria-label="delete">               
-                                          <Link to={user._id} onClick={Deletehandler} className={classes.deletebutton} ><DeleteIcon /></Link>
+                                          <Link onClick={() => Deletehandler(user._id)} className={classes.deletebutton} ><DeleteIcon /></Link>
                                     </Tooltip>
                                     <Tooltip title="Edit" aria-label="Edit">               
                                           <Link to={`/update/${user._id}`} className={classes.deletebutton}><EditTwoToneIcon/></Link>
@@ -132,7 +134,7 @@ const Deletehandler = (id, res) =>{
                  {/* pagination page for table  */}
             <TablePagination 
             rowsPerPageOptions={[5,10,20,50,100]}
-             count={users.length} 
+             count={exercises.length} 
              rowsPerPage={rowsPerPage}
               page={page}
               onChangePage= {onChangePage}

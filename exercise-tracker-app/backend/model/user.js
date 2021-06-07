@@ -8,6 +8,17 @@ const userschema = mongoose.Schema({
         trim: true,
         min: 5
     },
+    fullname: {
+        type: String,
+        required: true,
+        min: 5
+    },
+    phone: {
+        type: Number,
+        min: 10,
+        max: 10
+    }
+    
 },
 {
     timestamps: true,

@@ -3,14 +3,14 @@ import React from 'react';
 
 
 
-const EditExercise = () =>{
+const EditExercise = () => {
 
- 
-    return(
-      <div>
+
+  return (
+    <div>
       EditExercise
-      </div>
-    )
+    </div>
+  )
 }
 
 export default EditExercise;

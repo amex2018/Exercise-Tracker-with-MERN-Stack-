@@ -105,7 +105,7 @@ const Deletehandler = (id) =>{
                                    if(search == ""){
                                        return exercises
                                    }
-                                   else if(exercises.username.toLowerCase().includes(search.toLowerCase())){
+                                   else if(exercises.username.toLowerCase().includes(search.toLowerCase()) || exercises.duration.toLowerCase().includes(search.toLowerCase())){
                                        return exercises
                                    }
                                    
